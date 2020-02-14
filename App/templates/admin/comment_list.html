@@ -1,0 +1,68 @@
+{% extends 'admin/base.html' %}
+{% import "ui/admin_page.html" as pg %}
+{% block content %}
+    <div class="content-wrapper">
+        <!--内容-->
+        <section class="content-header">
+            <h1>微视频管理系统</h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> 评论管理</a></li>
+                <li class="active">评论列表</li>
+            </ol>
+        </section>
+        <section class="content" id="showcontent">
+            <div class="row">
+                <div class="col-md-12">
+                {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
+                        </button>
+                        <h4><i class="icon fa fa-check"></i> 成功!</h4>
+                        {{ msg }}
+                    </div>
+                {% endfor %}
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">评论列表</h3>
+                            <div class="box-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control pull-right"
+                                           placeholder="请输入关键字...">
+
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-body box-comments">
+                            {% for c in page_data.items %}
+                                <div class="box-comment">
+                                <img class="img-circle img-sm"
+                                     src="{{ url_for('static',filename='uploads/usricons/'+c.user.icon) }}" class="img-responsive center-block" alt="头像" style="width: 128px;height: 128px">
+                                <div class="comment-text">
+                                    <span class="username">
+                                        {{ c.user.name }}
+                                        <span class="text-muted pull-right">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            &nbsp;
+                                           {{ c.addtime }}
+                                        </span>
+                                    </span>
+                                    关于视频<a>{{ c.video.title }}</a>的评论：{{ c.content }}
+                                    <br><a class="label label-danger pull-right" href="{{ url_for('admin.commentdelete',id=c.id) }}">删除</a>
+                                </div>
+
+                            {% endfor %}
+                            </div>
+                            <div class="box-footer clearfix">
+                                {{ pg.page(page_data,'admin.commentlist') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+        <!--内容-->
+    </div>
+{% endblock %}
