@@ -1,0 +1,89 @@
+{% extends "bili/base.html" %}
+
+{% block content %}
+    <div class="container">
+        <form method="post" enctype="multipart/form-data" action="{{ url_for('bili.regist') }}"
+              onsubmit="return check()">
+            {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <strong>成功！</strong> {{ msg }}
+                </div>
+            {% endfor %}
+            {% for msg in get_flashed_messages(category_filter=["err"]) %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <strong>奥哦</strong> {{ msg }}
+                </div>
+            {% endfor %}
+            <div class="form-group">
+                <label for="exampleInputEmail1">{{ form.name.label }}</label>
+                {{ form.name }}
+                {% for err in form.name.errors %}
+                    <div class="col-md-12">
+                        <font style="color:red">{{ err }}</font>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">{{ form.email.label }}</label>
+                <label for="email_input"></label>{{ form.email }}
+                {% for err in form.email.errors %}
+                    <div class="col-md-12">
+                        <font style="color:red">{{ err }}</font>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">{{ form.phone.label }}</label>
+                <label for="email_input"></label>{{ form.phone }}
+                {% for err in form.phone.errors %}
+                    <div class="col-md-12">
+                        <font style="color:red">{{ err }}</font>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">{{ form.pwd.label }}</label>
+                <label for="password_input"></label>{{ form.pwd }}
+                {% for err in form.pwd.errors %}
+                    <div class="col-md-12">
+                        <font style="color:red">{{ err }}</font>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">{{ form.repwd.label }}</label>
+                <label for="password_confirm"></label>{{ form.repwd }}
+                {% for err in form.repwd.errors %}
+                    <div class="col-md-12">
+                        <font style="color:red">{{ err }}</font>
+                    </div>
+                {% endfor %}
+            </div>
+            {#            <div class="form-group">#}
+            {#                <label for="icon_input">{{ form.usericon.label }}</label>#}
+            {#                {{ form.usericon }}#}
+            {#                {% for err in form.pwd.errors %}#}
+            {#                    <div class="col-md-12">#}
+            {#                        <font style="color:red">{{ err }}</font>#}
+            {#                    </div>#}
+            {#                {% endfor %}#}
+            {#            </div>#}
+            {{ form.csrf_token }}
+            {{ form.submit }}
+            <br>
+            <small>已经有账号了？</small><a href="{{ url_for('bili.login') }}"><small>登录</small></a>
+        </form>
+    </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for("static",filename='yz/md5.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for("static",filename='yz/login.js') }}"></script>
+    {# <script type="text/javascript"#}
+    {#            src="{{ url_for("static",filename='base/register/register.js') }}"></script>#}
+{% endblock %}

@@ -1,0 +1,178 @@
+{% extends "bili/base.html" %}
+{#{% block head %}#}
+{#    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#{% endblock %}#}
+{% block styles %}
+    {{ super() }}
+    <style>
+            		* {
+            			padding: 0;
+            			margin: 0;
+            		}
+            		button{width: 300px;line-height: 30px;}
+            		.box {
+            			margin: 0 auto;
+            			position: absolute;
+            			left: 50%;
+            			top: 50%;
+            			height: 420px;
+            			width: 300px;
+            			margin-left: -150px;
+            			margin-top: -210px;
+            			border: 1px solid #ccc;
+            			background-color: #fff;
+            			border-radius: 25px;
+            			display: none;
+            			z-index: 2;
+            		}
+
+            		.top-s {
+            			font-size: 12px;
+            			color: #ccc;
+            			display: block;
+            			text-align: center;
+            			margin-left: 25px;
+            			margin-top: 25px;
+            			margin-bottom: 5px;
+            		}
+
+            		.top-x {
+            			font-size: 18px;
+            			color: black;
+            			display: block;
+            			text-align: center;
+            			margin-bottom: 45px;
+            		}
+
+            		.cuo {
+            			float: right;
+            			margin-right: 10px;
+            			margin-top: 5px;
+            			cursor: pointer;
+            		}
+
+            		body {
+            			-webkit-user-select: none;
+            			-moz-user-select: none;
+            			-ms-user-select: none;
+            			user-select: none;
+            		}
+            	</style>
+
+
+
+            <div class="box">
+            	<button class="btn">点击查看效果</button>
+            	<div class="box">
+            		<img src="cw.png" class="cuo">
+            		<span class="top-s">身份验证</span>
+            		<span class="top-x">拖动滑块，使图片角度为正</span>
+            		<div id="rotateWrap1">
+            		<div class="rotateverify-contaniner">
+            				<div class="rotate-can-wrap">
+            					<canvas class="rotateCan rotate-can" width="200" height="200"></canvas>
+            					<div class="statusBg status-bg"></div>
+            				</div>
+            				<div class="control-wrap slideDragWrap">
+            					<div class="control-tips">
+            						<p class="c-tips-txt cTipsTxt">滑动将图片转正</p>
+            					</div>
+            					<div class="control-bor-wrap controlBorWrap"></div>
+            					<div class="control-btn slideDragBtn">
+            						<i class="control-btn-ico"></i>
+            					</div>
+            				</div>
+            			</div>
+            		</div>
+            	</div>
+
+            	<script type="text/javascript">
+            		// 加一个div全部 然后设置display：block；
+            		$(function () {
+            			// 点击按钮
+            			$(".btn").click(function () {
+            				console.log('123123');
+            				$(".box").css("display", "block");
+            				$("body").css({ "background": "#807878" });
+            				$(".btn").attr("disabled", true);
+            			})
+            			//    点击x
+            			$(".cuo").click(function () {
+            				$(".box").css("display", "none");
+            				$("body").css("background", "#fff");
+            				$(".btn").attr("disabled", false);
+            			})
+            			//1
+            			var myRotateVerify = new RotateVerify('#rotateWrap1', {
+            				initText: '滑动将图片转正',//默认
+            				slideImage: ['image/6.png', 'image/7.png', 'image/8.png', 'image/9.png'],//arr  [imgsrc1,imgsrc2] 或者str 'imgsrc1'
+            				slideAreaNum: 10,// 误差范围角度 +- 10(默认)
+            				getSuccessState: function (res) {//验证通过 返回  true;
+            					// console.log('例1' + res);
+            				}
+            			})
+            		})
+            	</script>
+    {#<link rel="stylesheet" type="text/css" href="{{ url_for("static",filename='yz/css/verify.css') }}">#}
+    {#    <script type="text/javascript" src="{{ url_for("static",filename='yz/js/verify.js') }}" ></script>#}
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <form method="post" action="" onsubmit="return parse_password()">
+            {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <strong>成功！</strong> {{ msg }}
+                </div>
+            {% endfor %}
+            {% for msg in get_flashed_messages(category_filter=["err"]) %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <strong>奥哦！</strong> {{ msg }}
+                </div>
+            {% endfor %}
+            <div class="form-group">
+                <label for="exampleInputEmail1">{{ form.name.label }}</label>
+                {{ form.name }}
+                {% for err in form.name.errors %}
+                    <div class="col-md-12">
+                        <font style="color:red">{{ err }}</font>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">{{ form.pwd.label }}</label>
+                {{ form.pwd }}
+                {% for err in form.pwd.errors %}
+                    <div class="col-md-12">
+                        <font style="color:red">{{ err }}</font>
+                    </div>
+                {% endfor %}
+            </div>
+
+
+            {#	<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>#}
+            {#	<script src="{{ url_for("static",filename='yz/yz.js') }}" type="text/javascript" charset="utf-8"></script>#}
+
+
+
+            {#            <div class="checkbox">#}
+            {#                <label>#}
+            {#                    <input type="checkbox"> 记住我#}
+            {#                </label>#}
+            {#            </div>#}
+            {{ form.csrf_token }}
+            {{ form.submit }}
+            <br>
+            <small>还没有账号？</small><a href="{{ url_for('bili.regist') }}"><small>注册一个</small></a>
+        </form>
+    </div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for("static",filename='yz/md5.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for("static",filename='yz/login.js') }}"></script>
+{% endblock %}
