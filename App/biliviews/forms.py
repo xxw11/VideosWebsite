@@ -56,7 +56,8 @@ class RegistForm(FlaskForm):
         render_kw={
             "class": "form-control input-lg",
             "placeholder": "请输入密码",
-            "required": "required"
+            "required": "required",
+            "id":"password_input"
         }
     )
     usericon = FileField(
@@ -76,7 +77,8 @@ class RegistForm(FlaskForm):
         render_kw={
             "class": "form-control input-lg",
             "placeholder": "请输入密码",
-            "required": "required"
+            "required": "required",
+            "id": "password_input",
         }
     )
     submit = SubmitField(
@@ -130,7 +132,8 @@ class LoginForm(FlaskForm):
         render_kw={
             "class": "form-control input-lg",
             "placeholder": "请输入密码",
-            "required": "required"
+            "required": "required",
+            "id": "password_input"
         }
     )
     submit = SubmitField(
@@ -215,7 +218,8 @@ class PwdForm(FlaskForm):
         description='旧密码',
         render_kw={
             'class': 'form-control',
-            'placeholder':'请输入旧密码'
+            'placeholder':'请输入旧密码',
+            "id": "password_input",
         }
     )
     new_pwd = PasswordField(
@@ -225,7 +229,8 @@ class PwdForm(FlaskForm):
         ],
         render_kw = {
             'class': 'form-control',
-            'placeholder': '请输入旧密码'
+            'placeholder': '请输入旧密码',
+            "id": "password_input",
         },
     )
     submit = SubmitField(
